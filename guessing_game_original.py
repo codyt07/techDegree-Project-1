@@ -30,42 +30,49 @@ def start_game():
     ( You can add more features/enhancements if you'd like to. )
     """
     # write your code inside this function.
-    Winning_number = random.randint(1,10)
+    
     print("Welcome to the random number guessing game!")
     player_name = input("What is your name? ")
     player_guess = input(f"Welcome {player_name}, Please guess a number between 1 - 10: ")
-    space()
-    attempts = 1
-    player_check(player_guess, player_name, attempts, Winning_number)
-    space()
-
-def space():
-    print("=" * 15)
-    print("=" * 15)
-
-        
-def winning_check(player_guess, player_name, attempts, Winning_number):  
-  if player_guess != Winning_number:
+    print("-" * 12)
+    while True:
+        try:
+            player_guess = int(player_guess)
+            winning_check(player_guess, player_name)
+            break
+        except ValueError:
+            print("You did not enter a number!")
+            player_guess = input(f"Welcome {player_name}, Please guess a number between 1 - 10: ")
+        print("-" * 12)
+        print("-" * 12)
+      
+def winning_check(player_guess, player_name):
+  Winning_number = random.randint(1,10)  
+  attempts = 1
+  while player_guess != Winning_number:
     attempts += 1
-  if player_guess < Winning_number:
-    space()
-    print(f"This is attempt number: {attempts}!")
-    print(f"You guessed: {player_guess}, It's higher!")
-    player_guess = input("Guess a new number: ")
-    player_check(player_guess, player_name, attempts, Winning_number)
-  elif player_guess > Winning_number:
-    space()
-    print(f"This is attempt number {attempts}!")
-    print(f"You guessed: {player_guess}, It's lower!")  
-    player_guess = input("Guess a new number: ")
-    player_check(player_guess, player_name, attempts, Winning_number)
-    
+    if player_guess < Winning_number:
+      print(f"This is attempt number: {attempts}!")
+      print(f"You guessed: {player_guess}, It's higher!")
+      player_guess = input("Guess a new number: ")
+      print("-" * 12)
+      print("-" * 12)
+    elif player_guess > Winning_number:
+      print(f"This is attempt number {attempts}!")
+      print(f"You guessed: {player_guess}, It's lower!")  
+      player_guess = input("Guess a new number: ")
+      print("-" * 12)
+      print("-" * 12)
+    while True:
+      try:
+        player_guess = int(player_guess)
+        break
+      except ValueError:
+        player_guess = input("You did not input a number, try again! ")
   else:
-    space()
     print("Got it! You have won!")
     print(f"it took you {attempts} attempt(s)!") 
     redo = input(f"Do you want to play again {player_name}? Enter yes/no: ")
-    space()
     while True:
         if redo.lower() == "yes":
             new_game(player_name, attempts)
@@ -76,25 +83,10 @@ def winning_check(player_guess, player_name, attempts, Winning_number):
         else: 
             redo = input("You did not enter a valid entry! Try again: ")
             
-def player_check(player_guess, player_name, attempts, Winning_number):
-    try:
-        player_guess = int(player_guess)
-        if player_guess < 1:
-            player_guess = input("You entered a number lower than 1. Try again! ")
-            player_check(player_guess, player_name, attempts, Winning_number)
-        elif player_guess > 10:
-            player_guess = input("You entered a number higher than 10. Try again! ")
-            player_check(player_guess, player_name, attempts, Winning_number)                            
-        else:
-            winning_check(player_guess, player_name, attempts, Winning_number)
-    except ValueError:
-            player_guess = input("you did not enter a number! Try Again: ")
-            player_check(player_guess, player_name, attempts, Winning_number)
-            
+             
 def new_game(player_name, attempts):
     games.append(attempts)
     rounds = len(games)
-    space()
     index = rounds - 1
     while True: 
         if rounds != 0:
@@ -104,11 +96,18 @@ def new_game(player_name, attempts):
         else:
             break
     player_guess = input(f"Welcome back {player_name}, Please guess a number between 1 - 10: ")
-    attempts = 1
-    Winning_number = random.randint(1,10)
-    player_check(player_guess, player_name, attempts, Winning_number)
     print("-" * 12)
-
+    while True:
+      try:
+        player_guess = int(player_guess)
+        winning_check(player_guess, player_name)
+        break
+      except ValueError:
+        print("You did not enter a number!")
+        player_guess = input(f"Welcome {player_name}, Please guess a number between 1 - 10: ")
+        print("-" * 12)
+        print("-" * 12)
+    
     
             
 start_game() 
